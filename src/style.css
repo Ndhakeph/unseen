@@ -75,6 +75,7 @@ body[data-stage="v1"] .legend { opacity: 1; }
 .intro.hidden { opacity: 0; pointer-events: none; }
 .intro-card { text-align: center; max-width: 34rem; padding: 32px; }
 .tagline { font-size: clamp(20px, 2.6vw, 30px); line-height: 1.3; margin: 28px 0 32px; letter-spacing: -0.01em; }
+.howto { margin: -14px 0 28px; font-size: 14px; color: var(--muted); letter-spacing: 0.02em; }
 .start { font: inherit; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; padding: 16px 30px; border-radius: 999px; border: 0;
   background: var(--fg); color: #0a0a0d; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
 .start:hover { transform: translateY(-1px); box-shadow: 0 8px 40px rgba(255,255,255,0.25); }
