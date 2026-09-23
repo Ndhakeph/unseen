@@ -113,7 +113,7 @@ const cur = { flip: 0, fovea: 0, hole: 0, fill: 0, w: [1, 0, 0, 0], showFix: 0 }
 const fix = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
 let frame = 0, lastT = performance.now(), start = lastT;
 let started = false;
-let autoplay = false, autoTimer = 0;
+let autoplay = false, autoTimer = 0, lastPointer = 0, nextSaccade = 0;
 function setAutoplay(on) {
   autoplay = on; clearInterval(autoTimer);
   if (on) autoTimer = setInterval(() => setStage(stage + 1), 7000);
@@ -158,7 +158,7 @@ pointerTarget.addEventListener('pointerup', (e) => {
   if (e.target.closest('button, .more, .dots')) return;
   if (dt < 350 && Math.hypot(dx, dy) < 10) { manual(); setStage(stage + 1); }
 });
-function moveFix(e) { fix.tx = e.clientX / innerWidth; fix.ty = 1 - e.clientY / innerHeight; }
+function moveFix(e) { fix.tx = e.clientX / innerWidth; fix.ty = 1 - e.clientY / innerHeight; lastPointer = performance.now(); }
 
 addEventListener('keydown', (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -200,6 +200,10 @@ function render(now) {
   const target = STAGES[stage].params;
   for (const key of ['flip', 'fovea', 'hole', 'fill', 'showFix']) cur[key] = ease(cur[key], target[key], k);
   for (let i = 0; i < 4; i++) cur.w[i] = ease(cur.w[i], target.w[i], k);
+  // Idle saccades while auto-playing: the fixation point jumps like a real eye would.
+  if (autoplay && now - lastPointer > 6000 && now > nextSaccade) {
+    fix.tx = 0.3 + Math.random() * 0.4; fix.ty = 0.35 + Math.random() * 0.35; nextSaccade = now + 1200 + Math.random() * 1500;
+  }
   const kf = 1 - Math.exp(-dt * 9);
   fix.x = ease(fix.x, fix.tx, kf); fix.y = ease(fix.y, fix.ty, kf);
 
