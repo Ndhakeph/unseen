@@ -1,0 +1,88 @@
+:root {
+  --bg: #050507;
+  --fg: #f4f2ee;
+  --muted: rgba(244, 242, 238, 0.62);
+  --accent: #ffd27a;
+  --scale: 1;
+  --pad: clamp(18px, 3.2vw, 44px);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); overflow: hidden; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none; -webkit-user-select: none;
+  touch-action: none;
+}
+canvas#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+video { display: none; }
+
+.ui { position: fixed; inset: 0; pointer-events: none; padding: var(--pad); display: grid;
+  grid-template-rows: auto 1fr auto; transition: opacity 0.6s ease; }
+.ui.hidden { opacity: 0; }
+
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: 0.32em; font-size: calc(13px * var(--scale)); }
+.brand .mark { width: 10px; height: 10px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 4px rgba(244,242,238,0.15); }
+.brand.big { font-size: 20px; letter-spacing: 0.4em; justify-content: center; }
+.top { display: flex; justify-content: space-between; align-items: center; }
+.source { font-size: calc(11px * var(--scale)); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+.caption { align-self: end; max-width: min(62ch, 82vw); text-shadow: 0 2px 24px rgba(0,0,0,0.65), 0 0 2px rgba(0,0,0,0.8);
+  padding-bottom: calc(var(--pad) * 0.6); }
+.stage-num { font-size: calc(12px * var(--scale)); letter-spacing: 0.24em; color: var(--muted); margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.label { margin: 0 0 10px; font-weight: 600; font-size: clamp(28px, calc(4.2vw * var(--scale)), calc(64px * var(--scale))); line-height: 1.02; letter-spacing: -0.02em; }
+.line { margin: 0; font-size: clamp(16px, calc(1.7vw * var(--scale)), calc(28px * var(--scale))); line-height: 1.35; color: rgba(244,242,238,0.92); font-weight: 400; max-width: 46ch; }
+.more { pointer-events: auto; margin-top: 14px; background: rgba(255,255,255,0.08); color: var(--fg); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px; padding: 8px 14px; font: inherit; font-size: calc(12px * var(--scale)); letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; backdrop-filter: blur(10px); }
+.more:hover { background: rgba(255,255,255,0.14); }
+.more span { display: inline-block; transition: transform 0.3s; }
+.caption.open .more span { transform: rotate(180deg); }
+.science { margin: 12px 0 0; max-width: 60ch; font-size: clamp(13px, calc(1.1vw * var(--scale)), calc(18px * var(--scale))); line-height: 1.5; color: var(--muted);
+  max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s ease, opacity 0.4s ease; }
+.caption.open .science { max-height: 40vh; opacity: 1; }
+
+.caption .label, .caption .line { transition: opacity 0.35s ease, transform 0.35s ease; }
+.caption.swap .label, .caption.swap .line { opacity: 0; transform: translateY(8px); }
+
+.dots { position: fixed; left: 50%; bottom: calc(var(--pad) * 0.75); transform: translateX(-50%); display: flex; gap: 10px; pointer-events: auto; }
+.dots button { width: 8px; height: 8px; padding: 0; border-radius: 50%; border: 0; background: rgba(255,255,255,0.28); cursor: pointer; transition: all 0.3s; }
+.dots button.active { background: var(--fg); transform: scale(1.5); box-shadow: 0 0 12px rgba(255,255,255,0.6); }
+.dots button:hover { background: rgba(255,255,255,0.7); }
+
+.qr { position: fixed; right: var(--pad); bottom: var(--pad); display: flex; gap: 12px; align-items: center; pointer-events: none;
+  background: rgba(8,8,12,0.55); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 10px; backdrop-filter: blur(12px); }
+.qr canvas { width: calc(84px * var(--scale)); height: calc(84px * var(--scale)); border-radius: 8px; background: #fff; image-rendering: pixelated; }
+.qr-text { display: flex; flex-direction: column; gap: 4px; font-size: calc(11px * var(--scale)); color: var(--muted); max-width: 16ch; line-height: 1.3; }
+.qr-text strong { color: var(--fg); font-weight: 600; }
+.qr-text span { word-break: break-all; }
+
+.hint { position: fixed; left: var(--pad); bottom: calc(var(--pad) * 0.45); font-size: 11px; letter-spacing: 0.06em; color: rgba(244,242,238,0.42); }
+.hint b { color: rgba(244,242,238,0.7); font-weight: 600; }
+
+.toast { position: fixed; top: calc(var(--pad) + 30px); left: 50%; transform: translate(-50%, -8px); background: rgba(8,8,12,0.7); border: 1px solid rgba(255,255,255,0.12);
+  color: var(--fg); padding: 10px 16px; border-radius: 999px; font-size: 13px; letter-spacing: 0.04em; opacity: 0; transition: all 0.4s; backdrop-filter: blur(10px); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+.intro { position: fixed; inset: 0; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 40%, #15151c 0%, #050507 70%);
+  transition: opacity 0.8s ease; z-index: 10; }
+.intro.hidden { opacity: 0; pointer-events: none; }
+.intro-card { text-align: center; max-width: 34rem; padding: 32px; }
+.tagline { font-size: clamp(20px, 2.6vw, 30px); line-height: 1.3; margin: 28px 0 32px; letter-spacing: -0.01em; }
+.start { font: inherit; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; padding: 16px 30px; border-radius: 999px; border: 0;
+  background: var(--fg); color: #0a0a0d; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.start:hover { transform: translateY(-1px); box-shadow: 0 8px 40px rgba(255,255,255,0.25); }
+.fine { margin-top: 24px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+body.presenter { --scale: 1.45; }
+body.presenter .hint { display: none; }
+body.presenter .caption { max-width: 78vw; }
+
+@media (max-width: 700px) {
+  .qr { display: none; }
+  .hint { display: none; }
+  .caption { max-width: 100%; padding-bottom: 36px; }
+  .label { font-size: 30px; }
+  .line { font-size: 17px; }
+  .dots { bottom: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition-duration: 0.01ms !important; } }
