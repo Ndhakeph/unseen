@@ -15,7 +15,7 @@ body {
   touch-action: none;
 }
 canvas#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
-video { display: none; }
+video { position: fixed; width: 2px; height: 2px; opacity: 0.01; pointer-events: none; left: 0; top: 0; }
 
 .ui { position: fixed; inset: 0; pointer-events: none; padding: var(--pad); display: grid;
   grid-template-rows: auto 1fr auto; transition: opacity 0.6s ease; }
@@ -51,10 +51,17 @@ video { display: none; }
 
 .qr { position: fixed; right: var(--pad); bottom: var(--pad); display: flex; gap: 12px; align-items: center; pointer-events: none;
   background: rgba(8,8,12,0.55); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 10px; backdrop-filter: blur(12px); }
-.qr canvas { width: calc(84px * var(--scale)); height: calc(84px * var(--scale)); border-radius: 8px; background: #fff; image-rendering: pixelated; }
+.qr canvas { width: calc(84px * var(--scale)) !important; height: calc(84px * var(--scale)) !important; border-radius: 8px; background: #fff; image-rendering: pixelated; }
 .qr-text { display: flex; flex-direction: column; gap: 4px; font-size: calc(11px * var(--scale)); color: var(--muted); max-width: 16ch; line-height: 1.3; }
 .qr-text strong { color: var(--fg); font-weight: 600; }
 .qr-text span { word-break: break-all; }
+
+.legend { position: fixed; right: var(--pad); top: calc(var(--pad) + 34px); display: flex; align-items: center; gap: 10px; font-size: calc(11px * var(--scale));
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); opacity: 0; transition: opacity 0.6s; }
+.legend .wheel { width: calc(38px * var(--scale)); height: calc(38px * var(--scale)); border-radius: 50%;
+  background: conic-gradient(from 0deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+  -webkit-mask: radial-gradient(circle, transparent 52%, #000 56%); mask: radial-gradient(circle, transparent 52%, #000 56%); }
+body[data-stage="v1"] .legend { opacity: 1; }
 
 .hint { position: fixed; left: var(--pad); bottom: calc(var(--pad) * 0.45); font-size: 11px; letter-spacing: 0.06em; color: rgba(244,242,238,0.42); }
 .hint b { color: rgba(244,242,238,0.7); font-weight: 600; }

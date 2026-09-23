@@ -117,7 +117,8 @@ function setStage(i, { silent = false } = {}) {
     ui.caption.classList.remove('swap');
   }, silent ? 0 : 320);
   [...ui.dots.children].forEach((d, k) => d.classList.toggle('active', k === stage));
-  location.hash = stage ? String(stage) : '';
+  history.replaceState(null, '', stage ? '#' + stage : location.pathname);
+  document.body.dataset.stage = s.id;
 }
 STAGES.forEach((s, k) => {
   const b = document.createElement('button'); b.title = s.label; b.addEventListener('click', (e) => { e.stopPropagation(); setStage(k); });

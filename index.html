@@ -11,7 +11,7 @@
 </head>
 <body>
   <canvas id="gl"></canvas>
-  <video id="cam" playsinline muted autoplay hidden></video>
+  <video id="cam" playsinline muted autoplay></video>
 
   <div id="ui" class="ui">
     <header class="top">
@@ -33,6 +33,8 @@
       <canvas id="qrCanvas" width="128" height="128"></canvas>
       <div class="qr-text"><strong>Try it on your phone</strong><span id="qrUrl"></span></div>
     </aside>
+
+    <div class="legend" id="legend"><span class="wheel"></span><span>edge angle → colour</span></div>
 
     <footer class="hint" id="hint">← → step · tap to advance · move pointer to look · <b>i</b> science · <b>p</b> presenter · <b>f</b> fullscreen</footer>
 

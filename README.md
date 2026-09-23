@@ -12,7 +12,7 @@ Unseen is a browser webcam mirror that runs your live image through a physiologi
 | Stage | What you see | The science |
 | --- | --- | --- |
 | 0. Mirror | The seamless picture you believe you see. | This is the end product your brain hands you, not what your eyes actually capture. |
-| 1. Lens | The image is upside down. | The eye's lens inverts light onto the retina; your brain flips it back without you ever noticing. |
+| 1. Lens | The image is upside down and back to front. | The eye's lens projects a rotated image onto the retina. Nothing later flips it back as a picture; the brain simply learns to act on it correctly. |
 | 2. Fovea | Only a tiny central spot (~2°, about a thumb's width at arm's length) is sharp and in full colour; everything else fades fast. | Sharp, colour-rich vision is concentrated in the fovea, and acuity drops steeply as you move away from your point of fixation. |
 | 3. Blind spot | A hole in the image, roughly 12–15° to the temporal side. | There are no photoreceptors where the optic nerve exits the eye, so that patch of your visual field is never captured at all. |
 | 4. Filling in | The hole disappears, patched from its surroundings. | Your brain interpolates the blind spot from nearby texture and colour, which is why you never notice it in daily life. |
