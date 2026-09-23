@@ -105,6 +105,14 @@ const cur = { flip: 0, fovea: 0, hole: 0, fill: 0, w: [1, 0, 0, 0], showFix: 0 }
 const fix = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
 let frame = 0, lastT = performance.now(), start = lastT;
 let started = false;
+let autoplay = false, autoTimer = 0;
+function setAutoplay(on) {
+  autoplay = on; clearInterval(autoTimer);
+  if (on) autoTimer = setInterval(() => setStage(stage + 1), 7000);
+  document.body.classList.toggle('autoplay', on);
+  toast(on ? 'Auto-play on · advances every 7 s' : 'Auto-play off');
+}
+function manual() { if (autoplay) setAutoplay(false); }
 
 function setStage(i, { silent = false } = {}) {
   const n = STAGES.length;
@@ -117,6 +125,7 @@ function setStage(i, { silent = false } = {}) {
     ui.caption.classList.remove('swap');
   }, silent ? 0 : 320);
   [...ui.dots.children].forEach((d, k) => d.classList.toggle('active', k === stage));
+  $('progress').style.transform = `scaleX(${(stage + 1) / n})`;
   history.replaceState(null, '', stage ? '#' + stage : location.pathname);
   document.body.dataset.stage = s.id;
 }
@@ -139,7 +148,7 @@ pointerTarget.addEventListener('pointerup', (e) => {
   down = null;
   if (!started) return;
   if (e.target.closest('button, .more, .dots')) return;
-  if (dt < 350 && Math.hypot(dx, dy) < 10) setStage(stage + 1);
+  if (dt < 350 && Math.hypot(dx, dy) < 10) { manual(); setStage(stage + 1); }
 });
 function moveFix(e) { fix.tx = e.clientX / innerWidth; fix.ty = 1 - e.clientY / innerHeight; }
 
@@ -147,8 +156,9 @@ addEventListener('keydown', (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key;
   if (!started && (k === ' ' || k === 'Enter')) { begin(); return; }
-  if (k === 'ArrowRight' || k === ' ' || k === 'ArrowDown' || k === 'PageDown') { e.preventDefault(); setStage(stage + 1); }
-  else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); setStage(stage - 1); }
+  if (k === 'ArrowRight' || k === ' ' || k === 'ArrowDown' || k === 'PageDown') { e.preventDefault(); manual(); setStage(stage + 1); }
+  else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); manual(); setStage(stage - 1); }
+  else if (k === 'a' || k === 'A') setAutoplay(!autoplay);
   else if (k === 'Home') setStage(0);
   else if (k === 'End') setStage(STAGES.length - 1);
   else if (/^[0-9]$/.test(k) && +k < STAGES.length) setStage(+k);

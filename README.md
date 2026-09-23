@@ -28,6 +28,7 @@ Unseen is a browser webcam mirror that runs your live image through a physiologi
 - `i` — toggle the science panel (deeper explanation)
 - `f` — fullscreen
 - `p` — presenter mode (bigger type)
+- `a` — auto-play (advances every 7 seconds, for an unattended loop)
 - Pointer or touch — moves the fixation point
 - A QR code to the live site is always on screen for audience phones
 
