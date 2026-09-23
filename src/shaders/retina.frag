@@ -37,7 +37,7 @@ void main() {
   vec3 col = textureLod(u_src, uv, lod).rgb;
 
   // Colour vision fades with eccentricity (cones are concentrated centrally).
-  float sat = 1.0 - u_fovea * smoothstep(3.0, 22.0, ecc) * 0.92;
+  float sat = 1.0 - u_fovea * smoothstep(2.5, 16.0, ecc) * 0.93;
   float L = lum(col);
   col = mix(vec3(L), col, sat);
   // Periphery is slightly darker / lower contrast.

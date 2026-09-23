@@ -4,7 +4,7 @@
 
 Unseen is a browser webcam mirror that runs your live image through a physiologically grounded, stage-by-stage approximation of the human visual system. Step through each stage of vision — from the inverted image on your retina to the stable, edited world you actually perceive — and watch your brain's editing get undone, then redone.
 
-<!-- Replace this placeholder with a real screenshot at docs/screenshot.png -->
+<!-- Replace with a live-camera screenshot at docs/screenshot.png (current image shows the generated fallback scene) -->
 ![Unseen screenshot](docs/screenshot.png)
 
 ## Stages

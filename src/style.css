@@ -86,6 +86,9 @@ body.presenter .caption { max-width: 78vw; }
 
 @media (max-width: 700px) {
   .qr { display: none; }
+  .source { display: none; }
+  .toast { top: calc(var(--pad) + 44px); max-width: 86vw; text-align: center; }
+  .legend { top: calc(var(--pad) + 40px); }
   .hint { display: none; }
   .caption { max-width: 100%; padding-bottom: 36px; }
   .label { font-size: 30px; }

@@ -34,7 +34,7 @@ export const STAGES = [
   {
     id: 'ganglion', label: 'Retinal ganglion cells',
     line: 'The nerve carries contrast and edges, not pixels.',
-    science: 'About a hundred million photoreceptors squeeze into roughly 1.2 million optic-nerve fibres. Each ganglion cell compares a small centre against its surround, a difference of Gaussians (Kuffler, 1953; Rodieck, 1965). Bright means ON-centre cells firing, dark means OFF-centre cells firing. Flat regions send almost nothing.',
+    science: 'About a hundred million photoreceptors squeeze into roughly 1.2 million optic-nerve fibres. Each ganglion cell compares a small centre against its surround, a difference of Gaussians (Kuffler, 1953; Rodieck, 1965). Warm white shows ON-centre cells firing, blue shows OFF-centre cells firing. Flat regions send almost nothing.',
     params: { flip: 1, fovea: 1, hole: 0, fill: 1, w: [0, 1, 0, 0], showFix: 1 },
   },
   {

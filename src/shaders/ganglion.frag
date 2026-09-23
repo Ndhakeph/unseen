@@ -12,7 +12,8 @@ void main() {
   float dog = centre - surround;           // ON-centre response (OFF is the negative)
   float on = max(dog, 0.0), off = max(-dog, 0.0);
   // Neutral grey field = "no signal". Bright = ON cells firing, dark = OFF cells firing.
-  vec3 base = vec3(0.42, 0.43, 0.46);
-  vec3 col = base + vec3(1.0, 0.97, 0.9) * on * 4.5 - vec3(0.9, 0.95, 1.0) * off * 4.5;
+  // Dark field = "no signal". Warm white = ON-centre cells firing, blue = OFF-centre cells firing.
+  vec3 base = vec3(0.035, 0.04, 0.055);
+  vec3 col = base + vec3(1.0, 0.95, 0.82) * on * 5.0 + vec3(0.25, 0.5, 1.0) * off * 5.0;
   fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
