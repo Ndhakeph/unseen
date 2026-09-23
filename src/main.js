@@ -62,8 +62,9 @@ function allocTargets() {
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 }
 
+let resScale = 1;
 function resize() {
-  const maxPixels = 1920 * 1080;
+  const maxPixels = 1920 * 1080 * resScale;
   let dpr = Math.min(window.devicePixelRatio || 1, 2);
   let w = Math.round(innerWidth * dpr), h = Math.round(innerHeight * dpr);
   if (w * h > maxPixels) { const s = Math.sqrt(maxPixels / (w * h)); w = Math.round(w * s); h = Math.round(h * s); }
@@ -73,6 +74,13 @@ function resize() {
 }
 resize();
 addEventListener('resize', resize);
+// Adaptive resolution: if the GPU cannot hold ~60 fps, step the render size down (never below 55%).
+let slowFrames = 0;
+function watchPerformance(dt) {
+  if (dt > 1 / 40) slowFrames++; else slowFrames = Math.max(0, slowFrames - 2);
+  if (slowFrames > 90 && resScale > 0.55) { resScale *= 0.8; slowFrames = 0; W = 0; resize(); }
+}
+canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); toast('Graphics context lost. Reloading…'); setTimeout(() => location.reload(), 800); });
 
 // ---------- Camera with bulletproof fallback ----------
 let camReady = false;
@@ -186,6 +194,7 @@ const ease = (a, b, k) => a + (b - a) * k;
 function render(now) {
   requestAnimationFrame(render);
   const dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+  if (frame > 120 && document.visibilityState === 'visible') watchPerformance(dt);
   const time = (now - start) / 1000;
   const k = 1 - Math.exp(-dt * 5.5);
   const target = STAGES[stage].params;
